@@ -1,0 +1,7 @@
+﻿services:
+  ai-agent-alpha:
+    image: ai-agent-alpha
+    build:
+      context: .
+      dockerfile: AI-Agent-Alpha/Dockerfile
+

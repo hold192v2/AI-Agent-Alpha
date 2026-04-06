@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AI-Agent-Alpha", "AI-Agent-Alpha\AI-Agent-Alpha.csproj", "{FCA2F855-0817-4F0F-A506-54C7AB3E4DE3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{86B8133E-9387-44CB-A016-8362CA09BE49}"
+	ProjectSection(SolutionItems) = preProject
+		compose.yaml = compose.yaml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "API Gateway", "API Gateway", "{F1E5EC42-4A4B-4BE0-B609-9C573B88D52B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FCA2F855-0817-4F0F-A506-54C7AB3E4DE3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FCA2F855-0817-4F0F-A506-54C7AB3E4DE3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FCA2F855-0817-4F0F-A506-54C7AB3E4DE3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FCA2F855-0817-4F0F-A506-54C7AB3E4DE3}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{FCA2F855-0817-4F0F-A506-54C7AB3E4DE3} = {F1E5EC42-4A4B-4BE0-B609-9C573B88D52B}
+	EndGlobalSection
+EndGlobal
