@@ -1,6 +1,0 @@
-@AI_Agent_Alpha_HostAddress = http://localhost:5139
-
-GET {{AI_Agent_Alpha_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###
