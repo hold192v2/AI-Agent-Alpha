@@ -1,10 +1,6 @@
+using System.ComponentModel;
 using System.Security.Claims;
-using API_Gateway.DTOs;
 using API_Gateway.Extentions.Interfaces;
-using DTOs;
-using Flurl.Http;
-using Keycloak.Net;
-using MassTransit;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
@@ -17,27 +13,25 @@ namespace API_Gateway.Controllers;
 [Route("auth")]
 public class AuthController : ControllerBase
 {
-    private readonly IConfiguration _configuration;
     private readonly IAuthFacade _authFacade;
     
-    public AuthController(IConfiguration config,  IAuthFacade authFacade)
+    public AuthController(IAuthFacade authFacade)
     {
-        _configuration = config;
         _authFacade = authFacade;
     }
-    /// <param name="returnUrl">
-    /// URL для перенаправления после успешной авторизации
-    /// </param>
+
     [HttpGet("login")]
-    [EndpointSummary("Авторизация пользователя через Keycloak")]
+    [EndpointSummary("Авторизация пользователя")]
     [EndpointDescription(
-        "Перенаправляет пользователя на страницу авторизации Keycloak. " + "\n" +
+        "Перенаправляет пользователя на страницу авторизации Keycloak." + "\n" +
         "Если пользователь уже авторизован — выполняется redirect на returnUrl."
     )]
     [ProducesResponseType(StatusCodes.Status302Found)]
-    public IActionResult Login([FromQuery] string? returnUrl)
+    public IActionResult Login(
+    [Description("URL, на который будет переправлен пользователь после авторизации")]
+    [FromQuery] string? returnUrl)
     {
-        if ((bool)User?.Identity?.IsAuthenticated)
+        if ((bool)User.Identity?.IsAuthenticated)
             return Redirect(returnUrl ?? "https://service-desk.website.yandexcloud.net");
         
         return Challenge(
@@ -49,8 +43,14 @@ public class AuthController : ControllerBase
         );
     }
     [Authorize]
+    [EndpointSummary("Логаут пользователя")]
+    [EndpointDescription(
+        "Производит выход пользователя из учетной записи."
+    )]
     [HttpGet("logout")]
-    public IActionResult Logout([FromQuery] string? returnUrl)
+    public IActionResult Logout(
+        [Description("URL, на который будет переправлен пользователь после выхода из учетной записи")]
+        [FromQuery] string? returnUrl)
     {
         return SignOut(
             new AuthenticationProperties
@@ -62,6 +62,13 @@ public class AuthController : ControllerBase
         );
     }
     [Authorize]
+    [EndpointSummary("Получение информации о пользователе")]
+    [EndpointDescription(
+        "Выводит информацию о пользователе для основного отображения." +
+        "Если пользователя не существует в локальной базе, создает пользователя на основе информации из Keycloak."
+    )]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [HttpGet("me")]
     public async Task<ActionResult> AuthCheck()
     {
