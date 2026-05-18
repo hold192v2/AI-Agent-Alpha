@@ -1,6 +1,4 @@
 using API_Gateway.Extentions;
-using API_Gateway.Extentions.Interfaces;
-using DTOs;
 using MassTransit;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
@@ -12,13 +10,15 @@ using Yarp.ReverseProxy.Transforms.Builder;
 var builder = WebApplication.CreateBuilder(args);
 
 
-builder.Services.AddOpenApi(opt =>
+builder.Services.AddOpenApi("gateway", opt =>
 {
+    opt.OpenApiVersion =
+        Microsoft.OpenApi.OpenApiSpecVersion.OpenApi3_0;
+
     opt.AddDocumentTransformer((document, context, cancellationToken) =>
     {
+        document.Info.Title = "Gateway API";
         document.Info.Version = "v1";
-        document.Info.Title = "AI Alpha Agent";
-        document.Info.Description = "Проект для авторизации";
 
         return Task.CompletedTask;
     });
@@ -34,8 +34,6 @@ builder.Services.AddCors(options =>
     });
 });
 builder.Services.AddSingleton<ITransformProvider, AccessTokenTransformProvider>();
-builder.Services.AddScoped<IKeycloakService, KeycloakService>();
-builder.Services.AddScoped<IAuthFacade, AuthFacade>();
 
 builder.Services.AddHttpClient("AllowAnyCert")
     .ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler
@@ -106,35 +104,30 @@ builder.Services.AddAuthorization(options =>
     });
 });
 
-builder.Services.AddMassTransit(x =>
-{
-    
-    x.AddRequestClient<UserCheckAuthRequestDto>();
-    x.AddRequestClient<RegisterIntoTeamDto>();
-
-    x.UsingRabbitMq((context, cfg) =>
-    {
-        cfg.Host(builder.Configuration["CloudAMQP:Url"]);
-        cfg.Message<UserCheckAuthRequestDto>(x => x.SetEntityName("check-auth-queue"));
-        cfg.Message<RegisterIntoTeamDto>(x => x.SetEntityName("register-queue"));
-    });
-});
-
-builder.Services.AddMemoryCache();
 builder.Services.AddControllers();
 
 builder.Services
     .AddReverseProxy()
+    .ConfigureHttpClient((context, handler) =>
+    {
+        handler.SslOptions.RemoteCertificateValidationCallback =
+            (_, _, _, _) => true;
+    })
     .LoadFromConfig(builder.Configuration.GetSection("ReverseProxy"));
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-app.MapOpenApi();
+app.MapOpenApi("/openapi/{documentName}.json");
 app.MapScalarApiReference(opt =>
 {
     opt.Title = "AI Alpha Agent";
     opt.Theme = ScalarTheme.Mars;
+    opt.AddDocument("Gateway", "Gateway");
+    opt.AddDocument("User", "User", "https://localhost:7147/user/openapi/user.json");
+    opt.AddDocument("Team", "Team", "https://localhost:7147/team/openapi/team.json");
+    opt.AddDocument("Chat", "Chat", "https://localhost:7147/chat/openapi/chat.json");
+    opt.AddDocument("Meeting", "Meeting", "https://localhost:7147/meeting/openapi/meeting.json");
 });
 app.UseCors("FrontendPolicy");
 app.UseForwardedHeaders(new ForwardedHeadersOptions
@@ -144,7 +137,6 @@ app.UseForwardedHeaders(new ForwardedHeadersOptions
         ForwardedHeaders.XForwardedProto
 });
 app.UseAuthentication().UseAuthorization();
-
 app.MapControllers();
 app.MapReverseProxy().RequireAuthorization("ApiPolicy");
 

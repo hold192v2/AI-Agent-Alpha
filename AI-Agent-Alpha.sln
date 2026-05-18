@@ -9,6 +9,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "API Gateway", "API Gateway"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "API Gateway", "API Gateway\API Gateway.csproj", "{1CEDDACB-00D7-4687-BF3F-686881C3D374}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AuthService", "AuthService", "{6577B6BA-8544-4D61-8BC3-E4A3F159A713}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Auth.WebApi", "Auth.WebApi\Auth.WebApi.csproj", "{7B7816BE-CF76-4AE8-90C6-E2E64ED9DEA4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,8 +23,13 @@ Global
 		{1CEDDACB-00D7-4687-BF3F-686881C3D374}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1CEDDACB-00D7-4687-BF3F-686881C3D374}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1CEDDACB-00D7-4687-BF3F-686881C3D374}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7B7816BE-CF76-4AE8-90C6-E2E64ED9DEA4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7B7816BE-CF76-4AE8-90C6-E2E64ED9DEA4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7B7816BE-CF76-4AE8-90C6-E2E64ED9DEA4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7B7816BE-CF76-4AE8-90C6-E2E64ED9DEA4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{1CEDDACB-00D7-4687-BF3F-686881C3D374} = {F1E5EC42-4A4B-4BE0-B609-9C573B88D52B}
+		{7B7816BE-CF76-4AE8-90C6-E2E64ED9DEA4} = {6577B6BA-8544-4D61-8BC3-E4A3F159A713}
 	EndGlobalSection
 EndGlobal

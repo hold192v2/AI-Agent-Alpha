@@ -1,12 +1,11 @@
-using API_Gateway.DTOs;
-using API_Gateway.Extentions.Interfaces;
-using DTOs;
+using Auth.WebApi.Dtos;
+using Auth.WebApi.Extentions.Interfaces;
 using Flurl.Http;
 using Keycloak.Net;
 using Keycloak.Net.Models.Users;
 using Microsoft.Extensions.Caching.Memory;
 
-namespace API_Gateway.Extentions;
+namespace Auth.WebApi.Extentions;
 
 public class KeycloakService : IKeycloakService
 {

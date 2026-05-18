@@ -1,8 +1,8 @@
-using API_Gateway.Extentions.Interfaces;
+using Auth.WebApi.Extentions.Interfaces;
 using DTOs;
 using MassTransit;
 
-namespace API_Gateway.Extentions;
+namespace Auth.WebApi.Extentions;
 
 public class AuthFacade :  IAuthFacade
 {

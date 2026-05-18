@@ -12,6 +12,8 @@ public class AccessTokenTransformProvider : ITransformProvider
 
     public void Apply(TransformBuilderContext context)
     {
+        if (context.Route.Match.Path?.Contains("openapi") == true)
+            return;
         context.AddRequestTransform(async transformContext =>
         {
             var refresher = new TokenRefresher(

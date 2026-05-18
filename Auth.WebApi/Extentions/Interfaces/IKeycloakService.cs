@@ -1,7 +1,6 @@
-using DTOs;
 using Keycloak.Net.Models.Users;
 
-namespace API_Gateway.Extentions.Interfaces;
+namespace Auth.WebApi.Extentions.Interfaces;
 
 public interface IKeycloakService
 {

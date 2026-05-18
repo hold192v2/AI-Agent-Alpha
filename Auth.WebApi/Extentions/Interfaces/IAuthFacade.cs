@@ -1,6 +1,6 @@
 using DTOs;
 
-namespace API_Gateway.Extentions.Interfaces;
+namespace Auth.WebApi.Extentions.Interfaces;
 
 public interface IAuthFacade
 {
