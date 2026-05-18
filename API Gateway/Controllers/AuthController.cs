@@ -1,6 +1,7 @@
 using System.ComponentModel;
 using System.Security.Claims;
 using API_Gateway.Extentions.Interfaces;
+using DTOs;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
@@ -32,12 +33,12 @@ public class AuthController : ControllerBase
     [FromQuery] string? returnUrl)
     {
         if ((bool)User.Identity?.IsAuthenticated)
-            return Redirect(returnUrl ?? "https://service-desk.website.yandexcloud.net");
+            return Redirect(returnUrl ?? "https://localhost:7147");
         
         return Challenge(
             new AuthenticationProperties
             {
-                RedirectUri = returnUrl ?? "https://service-desk.website.yandexcloud.net"
+                RedirectUri = returnUrl ?? "https://localhost:7147"
             },
             OpenIdConnectDefaults.AuthenticationScheme
         );
@@ -55,7 +56,7 @@ public class AuthController : ControllerBase
         return SignOut(
             new AuthenticationProperties
             {
-                RedirectUri = returnUrl ?? "https://socially-advantaged-moth.cloudpub.ru/gateway/login"
+                RedirectUri = returnUrl ?? "https://localhost:7147/gateway/login"
             },
             CookieAuthenticationDefaults.AuthenticationScheme,
             OpenIdConnectDefaults.AuthenticationScheme
@@ -67,7 +68,7 @@ public class AuthController : ControllerBase
         "Выводит информацию о пользователе для основного отображения." +
         "Если пользователя не существует в локальной базе, создает пользователя на основе информации из Keycloak."
     )]
-    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(AuthUserMeDto),StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [HttpGet("me")]
     public async Task<ActionResult> AuthCheck()
@@ -83,11 +84,9 @@ public static class ClaimsPrincipalExtensions
 {
     public static Guid GetUserId(this ClaimsPrincipal user)
     {
-        var value = user.FindFirst("user-id")?.Value;
-
-        if (!Guid.TryParse(value, out var userId))
-            throw new UnauthorizedAccessException();
-
-        return userId;
+        return Guid.Parse(
+            user.FindFirstValue("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")
+            ?? throw new UnauthorizedAccessException()
+        );
     }
 }

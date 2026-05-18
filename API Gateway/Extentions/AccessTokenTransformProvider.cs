@@ -1,10 +1,8 @@
 using System.Net.Http.Headers;
-using API_Gateway.Extentions;
-using Microsoft.AspNetCore.Authentication;
 using Yarp.ReverseProxy.Transforms;
 using Yarp.ReverseProxy.Transforms.Builder;
 
-namespace Yarp_API_Gateway.Extentions;
+namespace API_Gateway.Extentions;
 
 public class AccessTokenTransformProvider : ITransformProvider
 {

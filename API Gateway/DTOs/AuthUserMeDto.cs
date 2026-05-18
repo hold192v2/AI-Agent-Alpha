@@ -10,7 +10,5 @@ public class AuthUserMeDto : UserCheckAuthDto
         this.Patronymic = userResonse.Patronymic;
         this.RoleName = userResonse.RoleName;
         this.Avatar =  userResonse.Avatar;
-        this.IsExist = true;
     }
-    public bool IsExist { get; set; } = true;
 }

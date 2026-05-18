@@ -16,7 +16,7 @@ public class AuthFacade :  IAuthFacade
         _registerClient = registerClient;
         _keycloakService = keycloakService;
     }
-    public async Task<object?> GetMeAsync(Guid userId)
+    public async Task<AuthUserMeDto?> GetMeAsync(Guid userId)
     {
         var userResponse = await _authClient.GetResponse<UserCheckAuthDto>
             (new UserCheckAuthRequestDto { UserId = userId });
@@ -40,7 +40,7 @@ public class AuthFacade :  IAuthFacade
                     keycloakUser.LastName,
                     patronymic!,
                     keycloakUser.Email,
-                    1));
+                    "teamleader"));
         if (registerResponse.Message.UserId == null)
             return null;
         return new AuthUserMeDto(registerResponse.Message);

@@ -24,7 +24,7 @@ public class KeycloakService : IKeycloakService
         var token = await GetAdminTokenAsync();
 
         var keycloak = new KeycloakClient(
-            "https://auth.alpha-helpdesk.ru",
+            _configuration["Keycloak:Domain"]!,
             () => token);
 
         try
