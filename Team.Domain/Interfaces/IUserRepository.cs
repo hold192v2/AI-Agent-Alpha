@@ -6,4 +6,5 @@ public interface IUserRepository
 {
     Task<User> GetUserByUserId(Guid id);
     public Task CreateUser(User user);
+    Task<bool> IsExist(Guid id);
 }

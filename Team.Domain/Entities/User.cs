@@ -10,18 +10,19 @@ public sealed class User
         Surname = surname;
         Name = name;
         Patronymic = patronymic;
-        Role = "teamlead";
+        Role = "teamleader";
         Email = email;
         AtlassianAccountId = atlassianAccountId;
         GithubAccountId = githubAccountId;
         PhotoUrl = photoUrl;
+        CreatedAt = DateTime.UtcNow;
     }
     //EF Core
     private User()
     {
         
     }
-    public Guid Id { get; }
+    public Guid Id { get; private set; }
     public string Surname { get; private set; }
     public string Name { get; private set; }
     public string Patronymic { get; private set; }
@@ -30,4 +31,5 @@ public sealed class User
     public string? AtlassianAccountId { get; private set; }
     public string? GithubAccountId { get; private set; }
     public string? PhotoUrl { get; private set; }
+    public DateTime? CreatedAt { get; private set; }
 }

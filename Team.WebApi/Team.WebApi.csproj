@@ -8,13 +8,27 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="Keycloak.AuthServices.Authentication" Version="3.0.0" />
+        <PackageReference Include="Keycloak.AuthServices.Authorization" Version="3.0.0" />
+        <PackageReference Include="Keycloak.Net.Core" Version="1.0.39" />
+        <PackageReference Include="MediatR" Version="14.1.0" />
         <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.5"/>
+        <PackageReference Include="Scalar.AspNetCore" Version="2.14.14" />
     </ItemGroup>
 
     <ItemGroup>
       <Content Include="..\.dockerignore">
         <Link>.dockerignore</Link>
       </Content>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Controllers\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Team.Application\Team.Application.csproj" />
+      <ProjectReference Include="..\Team.Infrastructure\Team.Infrastructure.csproj" />
     </ItemGroup>
 
 </Project>
