@@ -1,5 +1,8 @@
 using System.ComponentModel;
 using Chat.Application.Dtos;
+using Chat.Application.UseCases.GetChatsByUser;
+using Chat.Application.UseCases.GetMessageStory;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,7 +12,14 @@ namespace Chat.WebApi.Controllers;
 [Route("chat")]
 public class ChatController : ControllerBase
 {
-    //[Authorize(Roles = "teamlead")] При интеграции вернуть
+    private readonly IMediator _mediator;
+
+    public ChatController(IMediator mediator)
+    {
+        _mediator = mediator;
+    }
+
+    [Authorize(Roles = "teamlead")] //При интеграции вернуть
     [HttpGet("storyNames")]
     [EndpointSummary("Получить названия чатов")]
     [EndpointDescription("Выводит все названия чатов, с которыми связан пользователь.")]
@@ -18,61 +28,71 @@ public class ChatController : ControllerBase
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
     public IActionResult GetCommands()
     {
-        return Ok(
-            new List<GetChatStoryNamesDto>()
-            {
-                new GetChatStoryNamesDto(Guid.Empty,Guid.NewGuid(), "Аналитика по команде на момент 16.05.2026")
-            });
+        // return Ok(
+        //     new List<GetChatStoryNamesDto>()
+        //     {
+        //         new GetChatStoryNamesDto(Guid.Empty,Guid.NewGuid(), "Аналитика по команде на момент 16.05.2026")
+        //     });
+        var claims = User.Claims
+            .GroupBy(c => c.Type)
+            .ToDictionary(g => g.Key, g => g.First().Value);
+        var userId = new Guid(claims.GetValueOrDefault("user-id")!);
+        var request = new GetChatsByUserRequest(userId);
+        var response = _mediator.Send(request);
+        return Ok(response);
     }
-    //[Authorize(Roles = "teamlead")]
+    [Authorize(Roles = "teamlead")]
     [HttpGet("messageStory")]
     [EndpointSummary("Получить историю сообщений")]
     [EndpointDescription("Выводит всю историю конкретного чата.")]
     [ProducesResponseType(typeof(GetChatMessagesDto),StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
-    public IActionResult GetMessages([Description("ID чата, сообщения которого выводятся на экран")]
+    public async Task<IActionResult> GetMessages([Description("ID чата, сообщения которого выводятся на экран")]
         [FromQuery]Guid chatId)
     {
 
-        var messages = new List<GetChatMessagesDto>()
-        {
-            new GetChatMessagesDto(
-                Guid.NewGuid(),
-                Guid.NewGuid(),
-                "Привет! Как дела?",
-                false
-            ),
-
-            new GetChatMessagesDto(
-                Guid.NewGuid(),
-                null,
-                "Я AI-ассистент, чем могу помочь?",
-                false
-            ),
-
-            new GetChatMessagesDto(
-                Guid.NewGuid(),
-                Guid.NewGuid(),
-                "Расскажи про микросервисы",
-                false
-            ),
-
-            new GetChatMessagesDto(
-                Guid.NewGuid(),
-                null,
-                "Микросервисы — это архитектурный стиль распределённых систем...",
-                false
-            ),
-
-            new GetChatMessagesDto(
-                Guid.NewGuid(),
-                Guid.NewGuid(),
-                "Спасибо, понял",
-                false
-            )
-        };
-        return Ok(messages);
+        // var messages = new List<GetChatMessagesDto>()
+        // {
+        //     new GetChatMessagesDto(
+        //         Guid.NewGuid(),
+        //         Guid.NewGuid(),
+        //         "Привет! Как дела?",
+        //         false
+        //     ),
+        //
+        //     new GetChatMessagesDto(
+        //         Guid.NewGuid(),
+        //         null,
+        //         "Я AI-ассистент, чем могу помочь?",
+        //         false
+        //     ),
+        //
+        //     new GetChatMessagesDto(
+        //         Guid.NewGuid(),
+        //         Guid.NewGuid(),
+        //         "Расскажи про микросервисы",
+        //         false
+        //     ),
+        //
+        //     new GetChatMessagesDto(
+        //         Guid.NewGuid(),
+        //         null,
+        //         "Микросервисы — это архитектурный стиль распределённых систем...",
+        //         false
+        //     ),
+        //
+        //     new GetChatMessagesDto(
+        //         Guid.NewGuid(),
+        //         Guid.NewGuid(),
+        //         "Спасибо, понял",
+        //         false
+        //     )
+        // };
+        
+        var request = new GetMessageStoryRequest(chatId);
+        var response = await _mediator.Send(request);
+        return Ok(response);
     }
     //[Authorize(Roles = "teamlead")]
     [HttpPost("message")]
