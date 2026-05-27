@@ -14,6 +14,7 @@ public class AppDbContext: DbContext
     }
     public DbSet<Domain.Entities.Chat> Chats { get; set; }
     public DbSet<Message> Messages { get; set; }
+    public DbSet<Session> Sessions { get; set; }
 }
 
 public class YourDbContextFactory: IDesignTimeDbContextFactory<AppDbContext>

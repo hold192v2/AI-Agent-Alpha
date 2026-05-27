@@ -14,5 +14,5 @@ public class SendChatMessageRequestDto
     [Description("Роль, от которой необходимо выстраивать диалог")]
     public string? Role { get; set; }
     [Description("ID команды, необходимый для добавления контекста в ИИ")]
-    public string? TeamId { get; set; }
+    public Guid? TeamId { get; set; }
 }

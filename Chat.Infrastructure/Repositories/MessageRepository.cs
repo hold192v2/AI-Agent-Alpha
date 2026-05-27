@@ -18,4 +18,21 @@ public class MessageRepository: IMessageRepository
     {
         return await _context.Messages.OrderBy(c => c.ChatId == chatId).ToListAsync();
     }
+
+    public async Task addMessage(Guid chatId, Guid senderId, string content)
+    {
+        var message = new Message
+        {
+            ChatId = chatId,
+            SenderId = senderId,
+            Content = content,
+            CreatedAt = DateTime.UtcNow
+        };
+        await _context.Messages.AddAsync(message);
+    }
+
+    public async Task<Message> GetAnswerByChatId(Guid chatId)
+    {
+        return await _context.Messages.LastOrDefaultAsync(c => c.ChatId == chatId && c.SenderId == null);
+    }
 }

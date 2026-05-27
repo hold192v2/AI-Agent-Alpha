@@ -9,7 +9,9 @@ public class Chat
     [JsonPropertyName("userId")]
     public Guid UserId { get; set; }
     [JsonPropertyName("teamId")]
-    public string? TeamId { get; set; }
+    public Guid? TeamId { get; set; }
     [JsonPropertyName("title")]
     public string Title { get; set; }
+    [JsonPropertyName("role")]
+    public string Role { get; set; }
 }

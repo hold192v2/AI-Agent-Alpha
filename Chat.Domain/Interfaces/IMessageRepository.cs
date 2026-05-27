@@ -5,5 +5,6 @@ namespace Chat.Domain.Interfaces;
 public interface IMessageRepository
 {
     Task<List<Message>> GetMessagesByChatId(Guid chatId);
-    Task AddMessage();
+    Task addMessage(Guid chatId, Guid senderId, string content);
+    Task<Message> GetAnswerByChatId(Guid chatId);
 }

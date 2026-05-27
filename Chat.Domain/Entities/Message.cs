@@ -9,7 +9,7 @@ public class Message
     [JsonPropertyName("chatId")]
     public Guid ChatId { get; set; }
     [JsonPropertyName("senderId")]
-    public string SenderId { get; set; }
+    public Guid? SenderId { get; set; }
     [JsonPropertyName("content")]
     public string Content { get; set; }
     [JsonPropertyName("digestKey")]

@@ -8,6 +8,8 @@ public class Response
     public int Status { get; set; }
     public List<GetChatMessagesDto>? ChatMessages { get; set; }
     public List<GetChatStoryNamesDto>? ChatStoryNames { get; set; }
+    public SendChatMessageResponseDto? SendChatMessageResponse { get; set; }
+    public SendFinalMessageDto? SendFinalMessage { get; set; }
     
     public Response(string message, int  status)
     {
@@ -27,5 +29,19 @@ public class Response
         Message = message;
         Status = status;
         ChatStoryNames = chatStoryNames;
+    }
+
+    public Response(string message, int status, SendChatMessageResponseDto sendChatMessageResponse)
+    {
+        Message = message;
+        Status = status;
+        SendChatMessageResponse = sendChatMessageResponse;
+    }
+    
+    public Response(string message, int status, SendFinalMessageDto sendFinalMessage)
+    {
+        Message = message;
+        Status = status;
+        SendFinalMessage = sendFinalMessage;
     }
 }

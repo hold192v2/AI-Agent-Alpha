@@ -2,6 +2,8 @@ using System.ComponentModel;
 using Chat.Application.Dtos;
 using Chat.Application.UseCases.GetChatsByUser;
 using Chat.Application.UseCases.GetMessageStory;
+using Chat.Application.UseCases.Message.GetMessage;
+using Chat.Application.UseCases.Message.PostMessage;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -94,7 +96,7 @@ public class ChatController : ControllerBase
         var response = await _mediator.Send(request);
         return Ok(response);
     }
-    //[Authorize(Roles = "teamlead")]
+    [Authorize(Roles = "teamlead")]
     [HttpPost("message")]
     [EndpointSummary("Отправка сообщения в чат")]
     [EndpointDescription("Отправляет сообщение на обработку, получает id сессии для последующего получения ответа.")]
@@ -105,18 +107,25 @@ public class ChatController : ControllerBase
         [FromBody] SendChatMessageRequestDto request,
         CancellationToken cancellationToken)
     {
-            var result = new SendChatMessageResponseDto
-            {
-                SessionId = new Guid("c098fcbd-28b5-42ff-8317-fd4572e4796a")
-            };
-        return Ok(result);
+        var claims = User.Claims
+            .GroupBy(c => c.Type)
+            .ToDictionary(g => g.Key, g => g.First().Value);
+        var userId = new Guid(claims.GetValueOrDefault("user-id")!);
+        var messageRequest = new PostMessageRequest(
+            request.ChatId,
+            request.Text,
+            request.Role,
+            request.TeamId,
+            userId);
+        var response = _mediator.Send(messageRequest, cancellationToken);
+        return Ok(response);
     }
     
     //Я почитал еще документики, все же лучшим вариантом вывода - long polling, не просто polling.
     //Вот диалог с чаткой на этот счет, рекомендую ознакомиться
     //https://chatgpt.com/share/6a0bffb3-fc18-832e-8184-085b8ea7e2b4
     
-    //[Authorize(Roles = "teamlead")]
+    [Authorize(Roles = "teamlead")]
     [HttpGet("message")]
     [EndpointSummary("Получение ответного сообщения")]
     [EndpointDescription("Получает ответ от нейросети по ID сессии.")]
@@ -126,11 +135,8 @@ public class ChatController : ControllerBase
     public IActionResult SendFinalMessage([FromQuery][Description("ID сессии")] 
         Guid sessionId)
     {
-        var result = new SendFinalMessageDto
-        {
-            SessionId = new Guid("c098fcbd-28b5-42ff-8317-fd4572e4796a"),
-            Answer = "Ответ от ИИ."
-        };
-        return Ok(result);
+        var request = new GetMessageRequest(sessionId);
+        var response = _mediator.Send(request);
+        return Ok(response);
     }
 }
