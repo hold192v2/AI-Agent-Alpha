@@ -24,18 +24,18 @@ public class AuthController : ControllerBase
     [FromQuery] string? returnUrl)
     {
         if ((bool)User.Identity?.IsAuthenticated)
-            return Redirect(returnUrl ?? "https://localhost:7147");
+            return Redirect(returnUrl ?? "https://doggedly-succinct-ridgeback.cloudpub.ru/");
         
         return Challenge(
             new AuthenticationProperties
             {
-                RedirectUri = returnUrl ?? "https://localhost:7147"
+                RedirectUri = returnUrl ?? "https://doggedly-succinct-ridgeback.cloudpub.ru/"
             },
             OpenIdConnectDefaults.AuthenticationScheme
         );
     }
     [Authorize]
-    [EndpointSummary("Логаут пользователя")]
+    [EndpointSummary("Выход пользователя")]
     [EndpointDescription(
         "Производит выход пользователя из учетной записи."
     )]
@@ -47,7 +47,7 @@ public class AuthController : ControllerBase
         return SignOut(
             new AuthenticationProperties
             {
-                RedirectUri = returnUrl ?? "https://localhost:7147/gateway/login"
+                RedirectUri = returnUrl ?? "https://doggedly-succinct-ridgeback.cloudpub.ru/auth/login"
             },
             CookieAuthenticationDefaults.AuthenticationScheme,
             OpenIdConnectDefaults.AuthenticationScheme
