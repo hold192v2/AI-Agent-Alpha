@@ -17,6 +17,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Meet.Application\Meet.Application.csproj" />
+      <ProjectReference Include="..\Meeting.Infrastructure\Meeting.Infrastructure.csproj" />
     </ItemGroup>
 
 </Project>

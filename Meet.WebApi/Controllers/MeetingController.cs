@@ -1,7 +1,9 @@
 using System.ComponentModel;
 using Meet.Application;
 using Meet.Application.Dtos;
+using Meet.Application.UseCases.MeetingInfo;
 using Microsoft.AspNetCore.Mvc;
+using MediatR;
 
 namespace Meet.WebApi.Controllers;
 
@@ -9,6 +11,13 @@ namespace Meet.WebApi.Controllers;
 [Route("meeting")]
 public class MeetingController : ControllerBase
 {
+    private readonly IMediator _mediator;
+
+    public MeetingController(IMediator mediator)
+    {
+        _mediator = mediator;
+    }
+    
     [HttpGet("all")]
     [EndpointSummary("Получить названия встреч")]
     [EndpointDescription(
@@ -79,10 +88,14 @@ public class MeetingController : ControllerBase
     public IActionResult GetMeetingInfo([FromQuery] [Description("Id встречи")]
         Guid meetingId)
     {
-        return Ok(new List<GetMeetingInfo>()
-        {
-            new GetMeetingInfo(Guid.NewGuid(), "Встреча аналитиков",  DateTime.UtcNow, 30)
-        });
+        var claims = User.Claims
+            .GroupBy(c => c.Type)
+            .ToDictionary(g => g.Key, g => g.First().Value);
+        var userEmail = claims.GetValueOrDefault("preferred_username")!;
+        
+        var request = new MeetingInfoRequest(meetingId, userEmail);
+        var response = _mediator.Send(request);
+        return Ok(response);
     }
     
     [HttpGet("protocol")]
