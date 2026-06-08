@@ -4,4 +4,4 @@ using Meet.Application.HandleResponse;
 
 namespace Meet.Application.UseCases.MeetingInfo;
 
-public record MeetingInfoRequest(Guid Id, string UserEmail): IRequest<Response<GetMeetingInfo>>;
+public record MeetingInfoRequest(Guid Id): IRequest<Response<GetMeetingInfo>>;

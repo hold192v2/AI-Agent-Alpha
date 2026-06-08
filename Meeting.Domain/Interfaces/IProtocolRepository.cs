@@ -5,4 +5,5 @@ namespace Meeting.Domain.Interfaces;
 public interface IProtocolRepository
 {
     Task<List<Protocol>> GetProtocolsByMeetingId(Guid meetingId);
+    Task<Protocol> GetProtocolById(Guid id);
 }

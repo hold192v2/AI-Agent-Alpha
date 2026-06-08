@@ -4,6 +4,8 @@ using Meet.Application.Dtos;
 using Meet.Application.UseCases.MeetingInfo;
 using Microsoft.AspNetCore.Mvc;
 using MediatR;
+using Meet.Application.UseCases.MeetingStoryNames;
+using Meet.Application.UseCases.ProtocolInfo;
 
 namespace Meet.WebApi.Controllers;
 
@@ -28,11 +30,13 @@ public class MeetingController : ControllerBase
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
     public IActionResult GetCommands()
     {
-        return Ok(
-            new List<GetMeetingStoryNames>()
-            {
-                new GetMeetingStoryNames(new Guid(), "Встреча с командой - 15.05.2026.")
-            });
+        var claims = User.Claims
+            .GroupBy(c => c.Type)
+            .ToDictionary(g => g.Key, g => g.First().Value);
+        var userEmail = claims.GetValueOrDefault("preferred_username")!;
+        var request = new MeetingStoryNamesRequest(userEmail);
+        var response = _mediator.Send(request);
+        return Ok(response);
     }
     
     [HttpPost("empty")]
@@ -88,12 +92,7 @@ public class MeetingController : ControllerBase
     public IActionResult GetMeetingInfo([FromQuery] [Description("Id встречи")]
         Guid meetingId)
     {
-        var claims = User.Claims
-            .GroupBy(c => c.Type)
-            .ToDictionary(g => g.Key, g => g.First().Value);
-        var userEmail = claims.GetValueOrDefault("preferred_username")!;
-        
-        var request = new MeetingInfoRequest(meetingId, userEmail);
+        var request = new MeetingInfoRequest(meetingId);
         var response = _mediator.Send(request);
         return Ok(response);
     }
@@ -109,10 +108,9 @@ public class MeetingController : ControllerBase
     public IActionResult GetProtocolInfo([FromQuery] [Description("Id протокола")]
         Guid protocolId)
     {
-        return Ok(new List<GetProtocolInfo>()
-        {
-            new GetProtocolInfo(Guid.NewGuid(), "Встреча аналитиков",  "Было озвучено переделать анализ такой-то функции", DateTime.UtcNow, true)
-        });
+        var request = new ProtocolInfoRequest(protocolId);
+        var response = _mediator.Send(request);
+        return Ok(response);
     }
     
     [HttpPost("protocol")]

@@ -9,7 +9,8 @@ public class KonturTalkApiClient: IKonturTalkApiClient
 {
     private readonly HttpClient _httpClient;
     private readonly JsonSerializerOptions _jsonOptions;
-    
+    private IKonturTalkApiClient _konturTalkApiClientImplementation;
+
     public KonturTalkApiClient()
     {
         const string baseUrl = $"https://pblyrh6n.ktalk.ru";
@@ -46,6 +47,25 @@ public class KonturTalkApiClient: IKonturTalkApiClient
                 users.Add(user);
             }
             return users;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+    }
+
+    public async Task<EmailCalendarResult> GetMeetingsByUserEmail(string userEmail)
+    {
+        try
+        {
+            var requestUrl = $"/api/EmailCalendar/{userEmail}";
+            var response = await _httpClient.GetAsync(requestUrl);
+            response.EnsureSuccessStatusCode();
+            
+            var jsonResponse = await response.Content.ReadAsStringAsync();
+            var emailCalendarResult = JsonSerializer.Deserialize<EmailCalendarResult>(jsonResponse, _jsonOptions);
+            return emailCalendarResult;
         }
         catch (Exception e)
         {

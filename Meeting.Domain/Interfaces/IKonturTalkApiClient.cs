@@ -5,4 +5,5 @@ namespace Meeting.Domain.Interfaces;
 public interface IKonturTalkApiClient
 {
     Task<List<TalkUser>> GetUsersByMeetingId(Guid meetingId);
+    Task<EmailCalendarResult> GetMeetingsByUserEmail(string userEmail);
 }

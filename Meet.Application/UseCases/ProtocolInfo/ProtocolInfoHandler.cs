@@ -1,14 +1,22 @@
 using MediatR;
 using Meet.Application.Dtos;
 using Meet.Application.HandleResponse;
+using Meeting.Domain.Interfaces;
 
 namespace Meet.Application.UseCases.ProtocolInfo;
 
 public class ProtocolInfoHandler: IRequestHandler<ProtocolInfoRequest, Response<GetProtocolInfo>>
 {
-    private IRequestHandler<ProtocolInfoRequest, Response<GetProtocolInfo>> _requestHandlerImplementation;
-    public Task<Response<GetProtocolInfo>> Handle(ProtocolInfoRequest request, CancellationToken cancellationToken)
+    private readonly IProtocolRepository _protocolRepository;
+
+    public ProtocolInfoHandler(IProtocolRepository protocolRepository)
     {
-        return _requestHandlerImplementation.Handle(request, cancellationToken);
+        _protocolRepository = protocolRepository;
+    }
+    public async Task<Response<GetProtocolInfo>> Handle(ProtocolInfoRequest request, CancellationToken cancellationToken)
+    {
+        var protocol = await _protocolRepository.GetProtocolById(request.Id);
+        var protocolInfo = new GetProtocolInfo(protocol.Id, protocol.Title, protocol.Content, protocol.CreatedAt, protocol.IsImproved);
+        return new Response<GetProtocolInfo>("ProtocolInfo", 200, new List<GetProtocolInfo> { protocolInfo });
     }
 }
