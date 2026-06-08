@@ -4,6 +4,8 @@ using Meet.Application.Dtos;
 using Meet.Application.UseCases.MeetingInfo;
 using Microsoft.AspNetCore.Mvc;
 using MediatR;
+using Meet.Application.UseCases.CreateMeeting.Empty;
+using Meet.Application.UseCases.CreateMeeting.Kontur;
 using Meet.Application.UseCases.MeetingStoryNames;
 using Meet.Application.UseCases.ProtocolInfo;
 
@@ -49,7 +51,8 @@ public class MeetingController : ControllerBase
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
     public IActionResult MeetingEmpty()
     {
-        return Ok(new CreateEmptyMeeting());
+        var response = _mediator.Send(new CreateEmptyMeetingRequest());
+        return Ok(response);
     }
     
     [HttpPost("import/kontur")]
@@ -63,7 +66,13 @@ public class MeetingController : ControllerBase
     public IActionResult KonturMeeting([FromBody]
         KonturMeetingRequest request)
     {
-        return Ok(new CreateEmptyMeeting());
+        var claims = User.Claims
+            .GroupBy(c => c.Type)
+            .ToDictionary(g => g.Key, g => g.First().Value);
+        var userEmail = claims.GetValueOrDefault("preferred_username")!;
+        var newRequest = new CreateMeetingByKontureRequest(request.MeetingId, request.KonturMeetingId.ToString(), userEmail);
+        var response = _mediator.Send(newRequest);
+        return Ok(response);
     }
     
     [HttpGet("import/kontur")]

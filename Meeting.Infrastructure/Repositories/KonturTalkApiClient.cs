@@ -10,6 +10,7 @@ public class KonturTalkApiClient: IKonturTalkApiClient
     private readonly HttpClient _httpClient;
     private readonly JsonSerializerOptions _jsonOptions;
     private IKonturTalkApiClient _konturTalkApiClientImplementation;
+    private IKonturTalkApiClient _konturTalkApiClientImplementation1;
 
     public KonturTalkApiClient()
     {
@@ -66,6 +67,21 @@ public class KonturTalkApiClient: IKonturTalkApiClient
             var jsonResponse = await response.Content.ReadAsStringAsync();
             var emailCalendarResult = JsonSerializer.Deserialize<EmailCalendarResult>(jsonResponse, _jsonOptions);
             return emailCalendarResult;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+    }
+
+    public async Task<EmailCalendarItem> FindMeetingByUserEmail(string userEmail, string id)
+    {
+        try
+        {
+            var emailCalendarResult = await GetMeetingsByUserEmail(userEmail);
+            var emailCalendarItem = emailCalendarResult.Items.FirstOrDefault(i => i.Id == id);
+            return emailCalendarItem;
         }
         catch (Exception e)
         {
