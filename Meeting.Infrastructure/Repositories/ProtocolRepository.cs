@@ -9,6 +9,8 @@ public class ProtocolRepository: IProtocolRepository
 {
     private readonly AppDbContext _dbContext;
     private IProtocolRepository _protocolRepositoryImplementation;
+    private IProtocolRepository _protocolRepositoryImplementation1;
+    private IProtocolRepository _protocolRepositoryImplementation2;
 
     public ProtocolRepository(AppDbContext dbContext)
     {
@@ -20,8 +22,18 @@ public class ProtocolRepository: IProtocolRepository
         return await _dbContext.Protocols.Where(p => p.MeetingId == meetingId).ToListAsync();
     }
 
-    public async Task<Protocol> GetProtocolById(Guid id)
+    public async Task<Protocol?> GetProtocolById(Guid id)
     {
         return await _dbContext.Protocols.FirstOrDefaultAsync(p => p.Id == id);
+    }
+
+    public async Task CreateProtocol(Protocol protocol)
+    {
+        await _dbContext.Protocols.AddAsync(protocol);
+    }
+
+    public async Task UpdateProtocol(Protocol protocol)
+    {
+        await _dbContext.Protocols.AddAsync(protocol);
     }
 }

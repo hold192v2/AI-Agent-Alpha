@@ -27,7 +27,7 @@ public class MeetingInfoHandler: IRequestHandler<MeetingInfoRequest, Response<Ge
             return new Response<GetMeetingInfo>("Meeting not found", 404);
 
         var protocols = await _protocolRepository.GetProtocolsByMeetingId(meetingInfo.Id);
-        var protocolInfo = protocols.Select(protocol => new Dtos.ProtocolInfo(protocol.Id, protocol.Title, protocol.Title, protocol.CreatedAt)).ToList();
+        var protocolInfo = protocols.Select(protocol => new Dtos.ProtocolInfo(protocol.Id, protocol.Title, protocol.Content.Length > 100 ? protocol.Content.Substring(0,100) + "...": protocol.Content, protocol.CreatedAt)).ToList();
         
         var users = await _konturTalkApiClient.GetUsersByMeetingId(request.Id);
         var usersInfo = users.Select(user =>

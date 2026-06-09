@@ -6,7 +6,10 @@ using Microsoft.AspNetCore.Mvc;
 using MediatR;
 using Meet.Application.UseCases.CreateMeeting.Empty;
 using Meet.Application.UseCases.CreateMeeting.Kontur;
+using Meet.Application.UseCases.GetKonturMeeting;
 using Meet.Application.UseCases.MeetingStoryNames;
+using Meet.Application.UseCases.Protocol.Post;
+using Meet.Application.UseCases.Protocol.Put;
 using Meet.Application.UseCases.ProtocolInfo;
 
 namespace Meet.WebApi.Controllers;
@@ -36,7 +39,8 @@ public class MeetingController : ControllerBase
             .GroupBy(c => c.Type)
             .ToDictionary(g => g.Key, g => g.First().Value);
         var userEmail = claims.GetValueOrDefault("preferred_username")!;
-        var request = new MeetingStoryNamesRequest(userEmail);
+        var userId = new Guid(claims.GetValueOrDefault("user-id")!);
+        var request = new MeetingStoryNamesRequest(userEmail, userId);
         var response = _mediator.Send(request);
         return Ok(response);
     }
@@ -85,10 +89,13 @@ public class MeetingController : ControllerBase
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
     public IActionResult KonturMeetingsImport()
     {
-        return Ok(new List<KonturMeetingImport>()
-        {
-            new KonturMeetingImport(Guid.NewGuid(), "Встреча аналитиков", DateTime.UtcNow)
-        });
+        var claims = User.Claims
+            .GroupBy(c => c.Type)
+            .ToDictionary(g => g.Key, g => g.First().Value);
+        var userEmail = claims.GetValueOrDefault("preferred_username")!;
+        var request = new KonturMeetingImportRequest(userEmail);
+        var response = _mediator.Send(request);
+        return Ok(response);
     }
     [HttpGet]
     [EndpointSummary("Получить информацию о конкретной встрече")]
@@ -133,7 +140,8 @@ public class MeetingController : ControllerBase
     public IActionResult CreateProtocol([FromBody]
         CreateProtocolRequest protocolRequest)
     {
-        return Ok(new CreateProtocolResponse(Guid.NewGuid(), DateTime.UtcNow));
+        var response = _mediator.Send(protocolRequest);
+        return Ok(response);
     }
     
     [HttpPut("protocol")]
@@ -147,7 +155,8 @@ public class MeetingController : ControllerBase
     public IActionResult ChangeProtocol([FromBody]
         ChangeProtocolRequest protocolRequest)
     {
-        return Ok(new PutProtocolResponse(protocolRequest.ProtocolId));
+        var response = _mediator.Send(protocolRequest);
+        return Ok(response);
     }
     
     [HttpPost("protocol/formalize")]

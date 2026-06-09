@@ -14,6 +14,7 @@ public class AppDbContext: DbContext
     }
     public DbSet<Domain.Entities.Meeting> Meetings { get; set; }
     public DbSet<Protocol> Protocols { get; set; }
+    public DbSet<UserMeeting> UserMeetings { get; set; }
 }
 
 public class YourDbContextFactory: IDesignTimeDbContextFactory<AppDbContext>

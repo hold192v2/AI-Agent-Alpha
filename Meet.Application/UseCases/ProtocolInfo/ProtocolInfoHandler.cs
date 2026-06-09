@@ -16,7 +16,7 @@ public class ProtocolInfoHandler: IRequestHandler<ProtocolInfoRequest, Response<
     public async Task<Response<GetProtocolInfo>> Handle(ProtocolInfoRequest request, CancellationToken cancellationToken)
     {
         var protocol = await _protocolRepository.GetProtocolById(request.Id);
-        var protocolInfo = new GetProtocolInfo(protocol.Id, protocol.Title, protocol.Content, protocol.CreatedAt, protocol.IsImproved);
+        var protocolInfo = new GetProtocolInfo(protocol.Id, protocol.Title, protocol.Content.Length > 100 ? protocol.Content.Substring(0,100) + "...": protocol.Content, protocol.CreatedAt, protocol.IsImproved);
         return new Response<GetProtocolInfo>("ProtocolInfo", 200, new List<GetProtocolInfo> { protocolInfo });
     }
 }
