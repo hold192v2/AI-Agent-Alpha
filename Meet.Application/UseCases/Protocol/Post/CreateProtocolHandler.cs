@@ -22,9 +22,11 @@ public class CreateProtocolHandler: IRequestHandler<CreateProtocolRequest, Respo
         {
             Id = Guid.NewGuid(),
             Title = request.Name,
+            MeetingId =  request.MeetingId,
             Content = request.Description,
             CreatedAt = DateTime.UtcNow,
-            IsImproved = false
+            IsImproved = false,
+            UpdatedAt = DateTime.UtcNow
         };
         _protocolRepository.CreateProtocol(protocol);
         

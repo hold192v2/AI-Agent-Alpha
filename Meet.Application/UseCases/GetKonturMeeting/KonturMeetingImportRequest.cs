@@ -4,4 +4,4 @@ using Meet.Application.HandleResponse;
 
 namespace Meet.Application.UseCases.GetKonturMeeting;
 
-public record KonturMeetingImportRequest(string userEmail) : IRequest<Response<KonturMeetingImport>>;
+public record KonturMeetingImportRequest(DateTime Start, string? UserEmail = null) : IRequest<Response<KonturMeetingImport>>;

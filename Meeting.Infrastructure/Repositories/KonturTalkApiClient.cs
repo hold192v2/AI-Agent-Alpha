@@ -24,43 +24,15 @@ public class KonturTalkApiClient: IKonturTalkApiClient
         _jsonOptions = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
     }
 
-    public async Task<List<TalkUser>> GetUsersByMeetingId(Guid meetingId)
+    public async Task<EmailCalendarResult> GetMeetingsByUserEmail(string userEmail, DateTime start, DateTime? end, int? take)
     {
         try
         {
-            var users = new List<TalkUser>();
-            var requestUrl = $"/api/ConferenceReports/{meetingId}/participants";
-            var response = await _httpClient.GetAsync(requestUrl);
-            response.EnsureSuccessStatusCode();
-            
-            var jsonResponse = await response.Content.ReadAsStringAsync();
-            var participants = JsonSerializer.Deserialize<List<Participant>>(jsonResponse, _jsonOptions);
-
-            foreach (var participant in participants)
-            {
-                var userKey = participant.ParticipantId;
-                requestUrl = $"/api/users/{userKey}";
-                response = await _httpClient.GetAsync(requestUrl);
-                response.EnsureSuccessStatusCode();
-                
-                jsonResponse = await response.Content.ReadAsStringAsync();
-                var user = JsonSerializer.Deserialize<TalkUser>(jsonResponse, _jsonOptions);
-                users.Add(user);
-            }
-            return users;
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-            throw;
-        }
-    }
-
-    public async Task<EmailCalendarResult> GetMeetingsByUserEmail(string userEmail)
-    {
-        try
-        {
-            var requestUrl = $"/api/EmailCalendar/{userEmail}";
+            var requestUrl = "";
+            if (end.HasValue)
+                requestUrl = $"/api/EmailCalendar/{userEmail}?start={start}&end={end}";
+            else if (take.HasValue)
+                requestUrl = $"/api/EmailCalendar/{userEmail}?start={start}&take={take}";
             var response = await _httpClient.GetAsync(requestUrl);
             response.EnsureSuccessStatusCode();
             
@@ -75,13 +47,20 @@ public class KonturTalkApiClient: IKonturTalkApiClient
         }
     }
 
-    public async Task<EmailCalendarItem> FindMeetingByUserEmail(string userEmail, string id)
+    public async Task<EmailCalendarItem> FindMeetingByUserEmailAndId(string userEmail, string id)
     {
         try
         {
-            var emailCalendarResult = await GetMeetingsByUserEmail(userEmail);
-            var emailCalendarItem = emailCalendarResult.Items.FirstOrDefault(i => i.Id == id);
-            return emailCalendarItem;
+            for (var i = 0; i > -31; i--)
+            {
+                var startDate = DateTime.UtcNow.Date.AddDays(i);
+                var endDate = startDate.AddDays(i).AddTicks(-1);
+                var emailCalendarResult = await GetMeetingsByUserEmail(userEmail, startDate, endDate, null);
+                var emailCalendarItem = emailCalendarResult.Items.FirstOrDefault(i => i.Id == id);
+                if (emailCalendarItem != null)
+                    return emailCalendarItem;
+            }
+            return null;
         }
         catch (Exception e)
         {

@@ -24,10 +24,13 @@ public class ChangeProtocolHandler: IRequestHandler<ChangeProtocolRequest, Respo
             return new Response<PutProtocolResponse>("Protocol not found", 404);
 
         protocol.Title = request.Name;
+        protocol.MeetingId = request.MeetingId;
         protocol.Content = request.Description;
+        protocol.IsImproved = true;
+        protocol.UpdatedAt = DateTime.UtcNow;
         _protocolRepository.UpdateProtocol(protocol);
         
         _unitOfWork.Commit(cancellationToken);
-        return new Response<PutProtocolResponse>("Protocol updated", 200, new List<PutProtocolResponse> {new(protocol.Id)});
+        return new Response<PutProtocolResponse>("Protocol updated", 200, new List<PutProtocolResponse> {new(protocol.Id, protocol.UpdatedAt)});
     }
 }

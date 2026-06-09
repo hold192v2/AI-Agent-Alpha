@@ -18,7 +18,7 @@ public class CreateMeetingByKontureHandler: IRequestHandler<CreateMeetingByKontu
     
     public async Task<Response<string>> Handle(CreateMeetingByKontureRequest request, CancellationToken cancellationToken)
     {
-        var emailCalendarItem = await _konturTalkApiClient.FindMeetingByUserEmail(request.userEmail, request.KonturId);
+        var emailCalendarItem = await _konturTalkApiClient.FindMeetingByUserEmailAndId(request.userEmail, request.KonturId);
         
 
         if (request.MeetingId == null)

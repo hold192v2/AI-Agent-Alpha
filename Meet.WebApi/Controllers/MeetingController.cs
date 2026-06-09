@@ -6,11 +6,13 @@ using Microsoft.AspNetCore.Mvc;
 using MediatR;
 using Meet.Application.UseCases.CreateMeeting.Empty;
 using Meet.Application.UseCases.CreateMeeting.Kontur;
+using Meet.Application.UseCases.Formalize;
 using Meet.Application.UseCases.GetKonturMeeting;
 using Meet.Application.UseCases.MeetingStoryNames;
 using Meet.Application.UseCases.Protocol.Post;
 using Meet.Application.UseCases.Protocol.Put;
 using Meet.Application.UseCases.ProtocolInfo;
+using Meet.Application.UseCases.SendEmail;
 
 namespace Meet.WebApi.Controllers;
 
@@ -87,13 +89,14 @@ public class MeetingController : ControllerBase
     [ProducesResponseType(typeof(KonturMeetingImport),StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
-    public IActionResult KonturMeetingsImport()
+    public IActionResult KonturMeetingsImport([FromBody]
+        KonturMeetingImportRequest request)
     {
         var claims = User.Claims
             .GroupBy(c => c.Type)
             .ToDictionary(g => g.Key, g => g.First().Value);
         var userEmail = claims.GetValueOrDefault("preferred_username")!;
-        var request = new KonturMeetingImportRequest(userEmail);
+        request = request with { UserEmail = userEmail };
         var response = _mediator.Send(request);
         return Ok(response);
     }
@@ -167,9 +170,10 @@ public class MeetingController : ControllerBase
     [ProducesResponseType(typeof(FormalizeProtocolResponse),StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
-    public IActionResult AiFormalizeProtocol([FromBody] FormalizeProtocolRequest oldProtocolDesc)
+    public IActionResult AiFormalizeProtocol([FromBody] FormalizeRequest oldProtocolDesc)
     {
-        return Ok(new FormalizeProtocolResponse(oldProtocolDesc.OldProtocolDesc));
+        var response = _mediator.Send(oldProtocolDesc);
+        return Ok(response);
     }
     
     [HttpPost("protocol/email/send")]
@@ -180,8 +184,14 @@ public class MeetingController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
-    public IActionResult ProtocolSendByEmail([FromBody] EmailProtocolSendRequest protocolRequest)
+    public IActionResult ProtocolSendByEmail([FromBody] SendEmailRequest protocolRequest)
     {
-        return Ok();
+        var claims = User.Claims
+            .GroupBy(c => c.Type)
+            .ToDictionary(g => g.Key, g => g.First().Value);
+        var userEmail = claims.GetValueOrDefault("preferred_username")!;
+        protocolRequest = protocolRequest with { UserEmail = userEmail };
+        var response = _mediator.Send(protocolRequest);
+        return Ok(response);
     }
 }

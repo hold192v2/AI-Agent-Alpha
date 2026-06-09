@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "ysqUYjmsJes=",
+  "dgSpecHash": "0PXOjfXfRGM=",
   "success": true,
   "projectFilePath": "C:\\Users\\Gamer\\RiderProjects\\AI-Agent-Alpha-Meeting-Development\\API Gateway\\API Gateway.csproj",
   "expectedPackageFiles": [
@@ -9,6 +9,9 @@
     "C:\\Users\\Gamer\\.nuget\\packages\\fluentvalidation\\12.1.1\\fluentvalidation.12.1.1.nupkg.sha512",
     "C:\\Users\\Gamer\\.nuget\\packages\\ipaddressrange\\6.3.0\\ipaddressrange.6.3.0.nupkg.sha512",
     "C:\\Users\\Gamer\\.nuget\\packages\\kros.utils\\3.1.0\\kros.utils.3.1.0.nupkg.sha512",
+    "C:\\Users\\Gamer\\.nuget\\packages\\masstransit\\8.5.9\\masstransit.8.5.9.nupkg.sha512",
+    "C:\\Users\\Gamer\\.nuget\\packages\\masstransit.abstractions\\8.5.9\\masstransit.abstractions.8.5.9.nupkg.sha512",
+    "C:\\Users\\Gamer\\.nuget\\packages\\masstransit.rabbitmq\\8.5.9\\masstransit.rabbitmq.8.5.9.nupkg.sha512",
     "C:\\Users\\Gamer\\.nuget\\packages\\microsoft.aspnet.webapi.client\\4.0.20710\\microsoft.aspnet.webapi.client.4.0.20710.nupkg.sha512",
     "C:\\Users\\Gamer\\.nuget\\packages\\microsoft.aspnet.webapi.core\\4.0.20710\\microsoft.aspnet.webapi.core.4.0.20710.nupkg.sha512",
     "C:\\Users\\Gamer\\.nuget\\packages\\microsoft.aspnet.webapi.webhost\\4.0.20710\\microsoft.aspnet.webapi.webhost.4.0.20710.nupkg.sha512",
@@ -36,6 +39,7 @@
     "C:\\Users\\Gamer\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512",
     "C:\\Users\\Gamer\\.nuget\\packages\\newtonsoft.json.bson\\1.0.2\\newtonsoft.json.bson.1.0.2.nupkg.sha512",
     "C:\\Users\\Gamer\\.nuget\\packages\\ocelot\\25.0.0-beta.2\\ocelot.25.0.0-beta.2.nupkg.sha512",
+    "C:\\Users\\Gamer\\.nuget\\packages\\rabbitmq.client\\7.2.1\\rabbitmq.client.7.2.1.nupkg.sha512",
     "C:\\Users\\Gamer\\.nuget\\packages\\swashbuckle\\5.6.0\\swashbuckle.5.6.0.nupkg.sha512",
     "C:\\Users\\Gamer\\.nuget\\packages\\swashbuckle.aspnetcore.swagger\\10.0.1\\swashbuckle.aspnetcore.swagger.10.0.1.nupkg.sha512",
     "C:\\Users\\Gamer\\.nuget\\packages\\swashbuckle.aspnetcore.swaggergen\\10.0.1\\swashbuckle.aspnetcore.swaggergen.10.0.1.nupkg.sha512",

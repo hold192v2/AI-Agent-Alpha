@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "zdGy9c8S+mU=",
+  "dgSpecHash": "ViON6+6ICNM=",
   "success": true,
   "projectFilePath": "C:\\Users\\Gamer\\RiderProjects\\AI-Agent-Alpha-Meeting-Development\\Meet.Application\\Meet.Application.csproj",
   "expectedPackageFiles": [
@@ -11,9 +11,9 @@
     "C:\\Users\\Gamer\\.nuget\\packages\\fluentvalidation.dependencyinjectionextensions\\12.1.1\\fluentvalidation.dependencyinjectionextensions.12.1.1.nupkg.sha512",
     "C:\\Users\\Gamer\\.nuget\\packages\\keycloak.authservices.authentication\\3.0.0\\keycloak.authservices.authentication.3.0.0.nupkg.sha512",
     "C:\\Users\\Gamer\\.nuget\\packages\\mailkit\\4.17.0\\mailkit.4.17.0.nupkg.sha512",
-    "C:\\Users\\Gamer\\.nuget\\packages\\masstransit\\9.2.0-develop.147\\masstransit.9.2.0-develop.147.nupkg.sha512",
-    "C:\\Users\\Gamer\\.nuget\\packages\\masstransit.abstractions\\9.2.0-develop.147\\masstransit.abstractions.9.2.0-develop.147.nupkg.sha512",
-    "C:\\Users\\Gamer\\.nuget\\packages\\masstransit.rabbitmq\\9.2.0-develop.147\\masstransit.rabbitmq.9.2.0-develop.147.nupkg.sha512",
+    "C:\\Users\\Gamer\\.nuget\\packages\\masstransit\\8.5.9\\masstransit.8.5.9.nupkg.sha512",
+    "C:\\Users\\Gamer\\.nuget\\packages\\masstransit.abstractions\\8.5.9\\masstransit.abstractions.8.5.9.nupkg.sha512",
+    "C:\\Users\\Gamer\\.nuget\\packages\\masstransit.rabbitmq\\8.5.9\\masstransit.rabbitmq.8.5.9.nupkg.sha512",
     "C:\\Users\\Gamer\\.nuget\\packages\\mediatr\\14.1.0\\mediatr.14.1.0.nupkg.sha512",
     "C:\\Users\\Gamer\\.nuget\\packages\\mediatr.contracts\\2.0.1\\mediatr.contracts.2.0.1.nupkg.sha512",
     "C:\\Users\\Gamer\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\10.0.5\\microsoft.aspnetcore.authentication.jwtbearer.10.0.5.nupkg.sha512",

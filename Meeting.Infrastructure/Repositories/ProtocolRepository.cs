@@ -11,6 +11,7 @@ public class ProtocolRepository: IProtocolRepository
     private IProtocolRepository _protocolRepositoryImplementation;
     private IProtocolRepository _protocolRepositoryImplementation1;
     private IProtocolRepository _protocolRepositoryImplementation2;
+    private IProtocolRepository _protocolRepositoryImplementation3;
 
     public ProtocolRepository(AppDbContext dbContext)
     {
@@ -35,5 +36,10 @@ public class ProtocolRepository: IProtocolRepository
     public async Task UpdateProtocol(Protocol protocol)
     {
         await _dbContext.Protocols.AddAsync(protocol);
+    }
+
+    public async Task<List<Guid>> GetMeetingIdsByProtocolId(Guid protocolId)
+    {
+        return await _dbContext.Protocols.Where(p => p.Id == protocolId).Select(p => p.MeetingId).ToListAsync();
     }
 }

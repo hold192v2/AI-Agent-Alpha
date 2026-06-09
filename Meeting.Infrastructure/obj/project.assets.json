@@ -190,10 +190,10 @@
           }
         }
       },
-      "MassTransit/9.2.0-develop.147": {
+      "MassTransit/8.5.9": {
         "type": "package",
         "dependencies": {
-          "MassTransit.Abstractions": "9.2.0-develop.147",
+          "MassTransit.Abstractions": "8.5.9",
           "Microsoft.Extensions.DependencyInjection.Abstractions": "10.0.0",
           "Microsoft.Extensions.Diagnostics.HealthChecks": "10.0.0",
           "Microsoft.Extensions.Hosting.Abstractions": "10.0.0",
@@ -211,7 +211,7 @@
           }
         }
       },
-      "MassTransit.Abstractions/9.2.0-develop.147": {
+      "MassTransit.Abstractions/8.5.9": {
         "type": "package",
         "compile": {
           "lib/net10.0/MassTransit.Abstractions.dll": {
@@ -224,10 +224,10 @@
           }
         }
       },
-      "MassTransit.RabbitMQ/9.2.0-develop.147": {
+      "MassTransit.RabbitMQ/8.5.9": {
         "type": "package",
         "dependencies": {
-          "MassTransit": "9.2.0-develop.147",
+          "MassTransit": "8.5.9",
           "RabbitMQ.Client": "7.2.1"
         },
         "compile": {
@@ -2173,8 +2173,8 @@
           "FluentValidation.DependencyInjectionExtensions": "12.1.1",
           "Keycloak.AuthServices.Authentication": "3.0.0",
           "MailKit": "4.17.0",
-          "MassTransit": "9.2.0-develop.147",
-          "MassTransit.RabbitMQ": "9.2.0-develop.147",
+          "MassTransit": "8.5.9",
+          "MassTransit.RabbitMQ": "8.5.9",
           "MediatR": "14.1.0",
           "Meeting.Domain": "1.0.0",
           "Microsoft.Extensions.Http": "11.0.0-preview.4.26230.115",
@@ -2190,6 +2190,10 @@
       "Meeting.Domain/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v10.0",
+        "dependencies": {
+          "MassTransit": "8.5.9",
+          "MassTransit.RabbitMQ": "8.5.9"
+        },
         "compile": {
           "bin/placeholder/Meeting.Domain.dll": {}
         },
@@ -2436,10 +2440,10 @@
         "mailkit.nuspec"
       ]
     },
-    "MassTransit/9.2.0-develop.147": {
-      "sha512": "HV7IUryJ7S1j1kE+z+UD7lw7UWhtaCBgBC9sjYGofMYjua2DwW4yHE9UPA4Cctzowsl62btRLkrp8vKeZ9HLqg==",
+    "MassTransit/8.5.9": {
+      "sha512": "hhJyrU+7qReF1F+MBgH73E+KEx9oBcRFaCzEk90r8hOgI4HPhT2DYVfaHKGTHADE/P49H48xGgvO30Q9nWn7aA==",
       "type": "package",
-      "path": "masstransit/9.2.0-develop.147",
+      "path": "masstransit/8.5.9",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -2454,15 +2458,15 @@
         "lib/net9.0/MassTransit.xml",
         "lib/netstandard2.0/MassTransit.dll",
         "lib/netstandard2.0/MassTransit.xml",
-        "masstransit.9.2.0-develop.147.nupkg.sha512",
+        "masstransit.8.5.9.nupkg.sha512",
         "masstransit.nuspec",
         "mt-logo-small.png"
       ]
     },
-    "MassTransit.Abstractions/9.2.0-develop.147": {
-      "sha512": "n00ml6YcVNdtKM7YDnvR3Jr6PeymjR9r1OV1aON0TtdiDxEixg61jB+ebdGpfFq9F+LyY//7ndE/RGa/+wOPYg==",
+    "MassTransit.Abstractions/8.5.9": {
+      "sha512": "osNYcFMNzMbwPG6x5zc9u5l0t43+uvlbVqjS99hSIaop8uWnABps7NRgqAUgWX30Zd00wKhDv1nBFRtPV6CFSw==",
       "type": "package",
-      "path": "masstransit.abstractions/9.2.0-develop.147",
+      "path": "masstransit.abstractions/8.5.9",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -2477,15 +2481,15 @@
         "lib/net9.0/MassTransit.Abstractions.xml",
         "lib/netstandard2.0/MassTransit.Abstractions.dll",
         "lib/netstandard2.0/MassTransit.Abstractions.xml",
-        "masstransit.abstractions.9.2.0-develop.147.nupkg.sha512",
+        "masstransit.abstractions.8.5.9.nupkg.sha512",
         "masstransit.abstractions.nuspec",
         "mt-logo-small.png"
       ]
     },
-    "MassTransit.RabbitMQ/9.2.0-develop.147": {
-      "sha512": "EChg7Oh5rLXbemXx2O/AcGgxATy/jkLRVLeAX9Lv0Qm8e+rPYjvrLobJ2LYLM9i9cjjPjDvmo/VzFbqFzbNHYQ==",
+    "MassTransit.RabbitMQ/8.5.9": {
+      "sha512": "TikWOjyKxh9Lbk4BppOtF5PIAt5HwzSXIUgJ3bqI1waD94xR/9xhxQyl2xY/913vMhqu4DObXaQESLr9WNberA==",
       "type": "package",
-      "path": "masstransit.rabbitmq/9.2.0-develop.147",
+      "path": "masstransit.rabbitmq/8.5.9",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -2500,7 +2504,7 @@
         "lib/net9.0/MassTransit.RabbitMqTransport.xml",
         "lib/netstandard2.0/MassTransit.RabbitMqTransport.dll",
         "lib/netstandard2.0/MassTransit.RabbitMqTransport.xml",
-        "masstransit.rabbitmq.9.2.0-develop.147.nupkg.sha512",
+        "masstransit.rabbitmq.8.5.9.nupkg.sha512",
         "masstransit.rabbitmq.nuspec",
         "mt-logo-small.png"
       ]
@@ -5731,6 +5735,8 @@
   "projectFileDependencyGroups": {
     "net10.0": [
       "EFCore.BulkExtensions.MIT >= 10.22.0",
+      "MassTransit >= 8.5.9",
+      "MassTransit.RabbitMQ >= 8.5.9",
       "Meet.Application >= 1.0.0",
       "Meeting.Domain >= 1.0.0",
       "Microsoft.EntityFrameworkCore >= 10.0.8",
@@ -5799,6 +5805,14 @@
           "EFCore.BulkExtensions.MIT": {
             "target": "Package",
             "version": "[10.22.0, )"
+          },
+          "MassTransit": {
+            "target": "Package",
+            "version": "[8.5.9, )"
+          },
+          "MassTransit.RabbitMQ": {
+            "target": "Package",
+            "version": "[8.5.9, )"
           },
           "Microsoft.EntityFrameworkCore": {
             "target": "Package",

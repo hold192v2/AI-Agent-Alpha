@@ -8,4 +8,5 @@ public interface IProtocolRepository
     Task<Protocol?> GetProtocolById(Guid id);
     Task CreateProtocol(Protocol protocol);
     Task UpdateProtocol(Protocol protocol);
+    Task<List<Guid>> GetMeetingIdsByProtocolId(Guid protocolId);
 }

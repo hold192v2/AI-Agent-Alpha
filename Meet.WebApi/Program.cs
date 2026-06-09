@@ -1,6 +1,8 @@
 using System.Security.Claims;
 using System.Text.Json;
 using Keycloak.AuthServices.Authorization;
+using MassTransit;
+using Meet.Application.Dtos;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.IdentityModel.Tokens;
@@ -57,7 +59,21 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             }
         };
     });
+builder.Services.AddMassTransit(x =>
+{
+    
+    x.AddRequestClient<UsersByIdRequest>();
+    x.AddRequestClient<EmailByUsersIdRequest>();
+    x.AddRequestClient<OldProtocolDesc>();
 
+    x.UsingRabbitMq((context, cfg) =>
+    {
+        cfg.Host(builder.Configuration["CloudAMQP:Url"]);
+        cfg.Message<UsersByIdRequest>(x => x.SetEntityName("users-by-id-queue"));
+        cfg.Message<EmailByUsersIdRequest>(x => x.SetEntityName("email-by-id-queue"));
+        cfg.Message<OldProtocolDesc>(x => x.SetEntityName("protocol-formalize-queue"));
+    });
+});
 builder.Services
     .AddAuthorization()
     .AddKeycloakAuthorization()

@@ -4,5 +4,6 @@ namespace Meeting.Domain.Interfaces;
 
 public interface IUserMeetingRepository
 {
-    Task<List<UserMeeting>> GetUserMeetingsByUserId(Guid userId);
+    Task<List<Guid>> GetMeetingIdsByUserId(Guid userId);
+    Task<List<Guid>> GetUserIdsByMeetingId(Guid meetingId);
 }

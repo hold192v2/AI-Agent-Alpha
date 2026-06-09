@@ -16,7 +16,7 @@ public class KonturMeetingImportHandler: IRequestHandler<KonturMeetingImportRequ
 
     public async Task<Response<Dtos.KonturMeetingImport>> Handle(KonturMeetingImportRequest request, CancellationToken cancellationToken)
     {
-        var meetings = await _konturTalkApiClient.GetMeetingsByUserEmail(request.userEmail);
+        var meetings = await _konturTalkApiClient.GetMeetingsByUserEmail(request.UserEmail, request.Start.Date, null, 5);
         var konturMeetingImport = meetings.Items.Select(meeting => new KonturMeetingImport(new Guid(meeting.Id), meeting.Description, meeting.Start)).ToList();
         return new Response<KonturMeetingImport>("KonturMeetingImport", 200, konturMeetingImport);
     }
